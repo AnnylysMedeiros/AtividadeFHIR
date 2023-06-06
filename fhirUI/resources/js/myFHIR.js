@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    const divPlist = document.querySelector('#patientlist');
+    const divPlist = document.querySelector('#listapacientes');
 
     var objPatient = "";
 
@@ -261,7 +261,7 @@ $(document).ready(function () {
                 $("#badgeLaboratory").html(res.data.total);
 
                 if (res.data.total > 0) {
-                    const icone = '<a target="_blank" href="labresult.html?id=' + patientId + '"><span class="label label-info"><i class="fas fa-chart-line"></i></span></a>';
+                    const icone = '<a target="_blank" href="resultadoslas.html?id=' + patientId + '"><span class="label label-info"><i class="fas fa-chart-line"></i></span></a>';
                     $("#iconChart").append(icone);
                 }
 

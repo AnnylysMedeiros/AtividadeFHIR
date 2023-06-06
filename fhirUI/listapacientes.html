@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Sistema de cadastros FHRI</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="shortcut icon" href="resources/img/ISC_IRIS_icon.ico">
+
+  <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/vendor/open-iconic/css/open-iconic-bootstrap.min.css">
+  <link rel="stylesheet" href="assets/stylesheets/toastr.min.css">
+  <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.css">
+  <link rel="stylesheet" href="assets/vendor/flatpickr/flatpickr.min.css">
+  <link rel="stylesheet" href="resources/css/custom.css">
+
+
+  <link rel="stylesheet" href="assets/stylesheets/theme.min.css" data-skin="default">
+</head>
+
+<body>
+
+  <div class="app has-fullwidth">
+
+    <header class="app-header">
+      <nav class="nav-bar navbar-white navbar navbar-expand-lg my-auto py-auto">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+            <img src="../img/saude-vital.png" class="brand-image">
+          </a>
+        </div>
+      </nav>
+    </header>
+
+
+    <main class="app-main">
+
+      <div class="wrapper">
+        <div class="page has-sidebar has-sidebar-fluid has-sidebar-expand-lg">
+          <div class="page-inner p-0">
+            <div class="page-section">
+              <div class="container-fluid py-3">
+
+                <h1 class="page-title"> Lista de pacientes e </h1>
+                <p class="text-muted"> Lista obtida utilizando FHIR </p>
+                
+                <header class="page-navs bg-light shadow-sm">
+                  <div class="input-group has-clearable">
+                    <button type="button" class="close" aria-label="Close">
+                      <span aria-hidden="true">
+                        <i class="fa fa-times-circle"></i>
+                      </span>
+                    </button>
+                    <label class="input-group-prepend" for="searchClients">
+                      <span class="input-group-text">
+                        <span class="oi oi-magnifying-glass"></span>
+                      </span>
+                    </label>
+                    <input type="text" class="form-control" id="searchClients" data-filter=".board .list-group-item"
+                      placeholder="Encontrar pacientes">
+                    <div class="float-right">
+                      <button id="reloadList" class="btn btn-primary float-right">
+                        <i class="fas fa-sync-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+                </header>
+
+                <div class="board p-0 perfect-scrollbar">
+                  <div id="listgroup" class="list-group list-group-flush list-group-divider border-top"
+                    data-toggle="radiolist">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="page-sidebar">
+
+            <header class="sidebar-header d-xl-none">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item active">
+                    <a href="#" onclick="Looper.toggleSidebar()"><i
+                        class="breadcrumb-icon fa fa-angle-left mr-2"></i>Voltar</a>
+                  </li>
+                </ol>
+              </nav>
+            </header>
+
+
+            <div class="sidebar-section">
+
+              <div class="card">
+
+                <div class="card-body">
+                  <h4 class="card-title"> Detalhes do paciente</h4>
+                  <form>
+                    <div class="form-row">
+                      <div class="col-md-6 mb-3">
+                        <label for="fhirId">ID do paciente</label>
+                        <input type="text" class="form-control" id="fhirId" disabled>
+                      </div>
+
+                      <div class="col-md-6 mb-3">
+                        <label for="SSN">SSN</label>
+                        <input type="text" class="form-control" id="SSN">
+                      </div>
+                    </div>
+
+
+                    <div class="form-row">
+
+                      <div class="col-md-6 mb-3">
+                        <label for="firstName">Primeiro nome</label>
+                        <input type="text" class="form-control" id="firstName">
+                      </div>
+
+                      <div class="col-md-6 mb-3">
+                        <label for="lastName">Sobrenome</label>
+                        <input type="text" class="form-control" id="lastName">
+                      </div>
+                    </div>
+
+
+                    <div class="form-row">
+                      <div class="col-md-6 mb-3">
+                        <label class="control-label" for="dateofbirth">Data de nascimento</label>
+                        <input id="dateofbirth" type="text" class="form-control" data-toggle="flatpickr">
+                      </div>
+
+                      <div class="col-md-6 mb-3">
+                        <label for="gender">Gênero</label>
+                        <select class="custom-select d-block w-100" id="gender">
+                          <option value=""> Escolher... </option>
+                          <option value="male"> Masculino </option>
+                          <option value="female"> Feminino </option>
+                        </select>
+                      </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                      <label for="address">Endereço</label>
+                      <input type="text" class="form-control" id="address">
+                    </div>
+
+
+                    <div class="form-row">
+
+                      <div class="col-md-3 mb-3">
+                        <label for="city">Cidade</label>
+                        <input type="text" class="form-control" id="city">
+                      </div>
+
+                      <div class="col-md-4 mb-3">
+                        <label for="state">Estado</label>
+                        <input type="text" class="form-control" id="state">
+                      </div>
+
+                      <div class="col-md-5 mb-3">
+                        <label for="country">País</label>
+                        <input type="text" class="form-control" id="country">
+                      </div>
+                    </div>
+
+                    <div class="float-right">
+                      <button id="updateData" class="btn btn-primary float-right">Atualizar
+                        <i class="fas fa-save"></i>
+                      </button>
+                    </div>
+
+
+
+                    <div class="el-example">
+                      <button type="button" class="btn btn-lg btn-primary btn-floated" data-toggle="modal"
+                        data-target="#exampleModalDocked" data-backdrop="false">
+                        <i class="fas fa-code"></i>
+                      </button>
+                    </div>
+
+
+                    <div class="modal modal-docked fade" id="exampleModalDocked" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModalDockedLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header bg-primary text-white">
+                            Fonte de dados FHIR
+                          </div>
+                          <div class="modal-body py-3">
+                            <div class="form-group">
+                              <textarea class="form-control" id="fhirdatasource" rows="30" readonly></textarea>
+                            </div>
+                            <button type="button" class="btn btn-lg btn-block btn-link" data-dismiss="modal"
+                              aria-label="Close">Fechar</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+
+
+              <div>
+                <div id="accordion" class="card-expansion">
+                  <div class="card card-expansion-item">
+                    <div class="card-header border-0" id="headingOne2">
+                      <button id="btnAllergy" class="btn btn-reset d-flex justify-content-between w-100"
+                        data-toggle="collapse" data-target="#collapseOne2" aria-expanded="false"
+                        aria-controls="collapseOne2">
+                        <span>Alergias</span>
+                        <span class="collapse-indicator">
+                          <span id="badgeAllergy" class="badge badge-pill badge-primary"></span>
+                          <i class="fa fa-fw fa-chevron-down"></i>
+                        </span>
+                      </button>
+                    </div>
+                    <div id="collapseOne2" class="collapse" aria-labelledby="headingOne2" data-parent="#accordion">
+                      <div class="card-body">
+                        <div class="card card-fluid">
+                          <div class="table-responsive">
+                            <table id="allergyTable" class="table table-hover">
+                              <thead class="thead-light">
+                                <tr>
+                                  <th> Alergias </th>
+                                  <th> Tipo </th>
+                                  <th> Categoria </th>
+                                  <th> Criticidade </th>
+                                </tr>
+                              </thead>
+                              <tbody></tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card card-expansion-item">
+                    <div class="card-header border-0" id="headingTwo2">
+                      <button class="btn btn-reset d-flex justify-content-between w-100 collapsed"
+                        data-toggle="collapse" data-target="#collapseTwo2" aria-expanded="false"
+                        aria-controls="collapseTwo2">
+                        <span>Sinais vitais</span>
+                        <span class="collapse-indicator">
+                          <span id="badgeVitalSigns" class="badge badge-pill badge-primary"></span>
+                          <i class="fa fa-fw fa-chevron-down"></i>
+                        </span>
+                      </button>
+                    </div>
+                    <div id="collapseTwo2" class="collapse" aria-labelledby="headingTwo2" data-parent="#accordion">
+                      <div class="card-body">
+                        <div class="card card-fluid">
+                          <div class="table-responsive">
+                            <table id="vitalSignsTable" class="table table-hover">
+                              <thead class="thead-light">
+                                <tr>
+                                  <th> Medida </th>
+                                  <th> Valor </th>
+                                  <th> Unidade </th>
+                                  <th> Data e hora </th>
+                                </tr>
+                              </thead>
+                              <tbody></tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="card card-expansion-item">
+                    <div class="card-header border-0" id="headingThree2">
+                      <button class="btn btn-reset d-flex justify-content-between w-100 collapsed"
+                        data-toggle="collapse" data-target="#collapseThree2" aria-expanded="false"
+                        aria-controls="collapseThree2">
+                        <span>Laboratório</span>
+                        <div id="iconChart"></div>
+                        <span class="collapse-indicator">
+                          <span id="badgeLaboratory" class="badge badge-pill badge-primary"></span>
+                          <i class="fa fa-fw fa-chevron-down"></i>
+                        </span>
+                      </button>
+                    </div>
+                    <div id="collapseThree2" class="collapse" aria-labelledby="headingThree2" data-parent="#accordion">
+                      <div class="card-body">
+                        <div class="card card-fluid">
+                          <div class="table-responsive">
+                            <table id="laboratoryTable" class="table table-hover">
+                              <thead class="thead-light">
+                                <tr>
+                                  <th> Teste </th>
+                                  <th> Valor </th>
+                                  <th> Unidade </th>
+                                  <th> Data e hora </th>
+                                </tr>
+                              </thead>
+                              <tbody></tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="card card-expansion-item">
+                    <div class="card-header border-0" id="headingFour">
+                      <button class="btn btn-reset d-flex justify-content-between w-100 collapsed"
+                        data-toggle="collapse" data-target="#collapseFour" aria-expanded="false"
+                        aria-controls="collapseFour">
+                        <span>Imunização</span>
+                        <span class="collapse-indicator">
+                          <span id="badgeImmunization" class="badge badge-pill badge-primary"></span>
+                          <i class="fa fa-fw fa-chevron-down"></i>
+                        </span>
+                      </button>
+                    </div>
+                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                      <div class="card-body">
+
+                        <div class="card card-fluid">
+
+                          <div class="table-responsive">
+
+                            <table id="immunizationTable" class="table table-hover">
+
+                              <thead class="thead-light">
+                                <tr>
+                                  <th> Vacina </th>
+                                  <th> Data e hora da aplicação </th>
+                                </tr>
+                              </thead>
+
+                              <tbody></tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/popper.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+  <script src="assets/javascript/toastr.min.js"></script>
+  <script src="assets/vendor/pace/pace.min.js"></script>
+  <script src="assets/vendor/stacked-menu/stacked-menu.min.js"></script>
+  <script src="assets/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+  <script src="assets/vendor/flatpickr/flatpickr.min.js"></script>
+  <script src="assets/vendor/flatpickr/plugins/monthSelect/index.js"></script>
+
+
+  <script src="assets/javascript/theme.min.js"></script>
+
+  <script src="jqFhir.js"></script>
+  <script src="resources/js/myFHIR.js"></script>
+</body>
+
+</html>

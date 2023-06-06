@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Sistema de cadastros FHRI</title>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <link rel="shortcut icon" href="resources/img/ISC_IRIS_icon.ico">
+  
+  <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet">
+  
+  <link rel="stylesheet" href="assets/vendor/open-iconic/css/open-iconic-bootstrap.min.css">
+  <link rel="stylesheet" href="assets/stylesheets/toastr.min.css">
+  <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.css">
+  <link rel="stylesheet" href="assets/vendor/flatpickr/flatpickr.min.css">
+  <link rel="stylesheet" href="resources/css/custom.css">
+  
+  
+  <link rel="stylesheet" href="assets/stylesheets/theme.min.css" data-skin="default">
+</head>
+
+<body>
+  
+  <div class="app has-fullwidth">
+    
+    <header class="app-header">      
+      <nav class="nav-bar navbar-white navbar navbar-expand-lg my-auto py-auto">
+        <div class="container-fluid">          
+          <a class="navbar-brand" href="./listapacientes.html">
+            <img src="../img/saude-vital.png" >
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    
+    <main class="app-main">      
+      <div class="wrapper">        
+        <div class="page">          
+          <div class="page-inner">            
+            <div class="page-section">
+              <div class="section-block">
+                <div class="col-lg-12">
+                  
+                  <div class="card">                    
+                    <div class="card-body">
+                      <h4 class="card-title"> Informações do paciente</h4>
+                      <form>
+                        
+                        <div class="form-row">                          
+                          <div class="col-md-2 mb-2">
+                            <label for="fhirId">ID do paciente</label>
+                            <input type="text" readonly class="form-control" id="fhirId">
+                          </div>
+                          
+                          <div class="col-md-6 mb-4">
+                            <label for="fullName">Nome</label>
+                            <input type="text" readonly class="form-control" id="fullName">
+                          </div>
+                          
+                          <div class="col-md-4 mb-3">
+                            <label class="control-label" for="dateofbirth">Data de nascimento</label>
+                            <input id="dateofbirth" type="text" class="form-control" data-toggle="flatpickr">
+                          </div>
+                        </div>
+
+                        <div class="form-row">                          
+                          <div class="col-md-8 mb-3">
+                            <label for="labtest">Testes de laboratório</label>
+                            <select class="custom-select d-block w-100" id="labtest"></select>
+                          </div>
+                          <div class="col-md-4 mb-3 align-self-end">
+                            <button id="labSearch" class="btn btn-primary" type="button">Pesquisar
+                              <i class="fas fa-search"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+
+                  
+                  <div class="card">                    
+                    <div class="card-header"> Resultados </div>
+                    <div class="card-body">
+                      <h5 id="testName" class="card-title text-muted"></h5>
+                      <div style="width: 100%;">
+                        <canvas id="myChart"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/popper.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script> 
+  
+  <script src="assets/javascript/toastr.min.js"></script>
+  <script src="assets/vendor/pace/pace.min.js"></script>
+  <script src="assets/vendor/stacked-menu/stacked-menu.min.js"></script>
+  <script src="assets/vendor/chart.js/Chart.bundle.min.js"></script> 
+  <script src="assets/vendor/chart.js/utils.js"></script> 
+  
+  <script src="assets/javascript/theme.min.js"></script> 
+  
+  <script src="resources/js/labresult.js"></script>
+</body>
+
+</html>
